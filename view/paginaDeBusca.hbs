@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="contet-type" content="text/html; charset=utf-8" />
+        <title>Pagina de Busca</title>
+    </head>
+    <body>
+        <h1>Pagina de Busca</h1>
+        <form action="./busca" method="GET" accept-charset="utf-8">
+            <label for="busca">Digite o nome da musica que deseja buscar:</label>
+            <input type="text" name="busca" value="" />
+            <input type="submit" name="buscar" value="Buscar" />
+        </form>
+
+        <ul>
+            {{#musicas}}
+                <li>{{title}}</li>
+            {{/musicas}}
+        </ul>
+    </body>
+</html>

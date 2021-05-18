@@ -1,0 +1,27 @@
+{
+  "name": "web2_2020_2",
+  "version": "1.0.0",
+  "description": "Projeto 2 de Programação Web 2 feito por Ricardo Amaral Fabris",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node node_modules/nodemon/bin/nodemon.js server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ricks25/Web2_2020_2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ricks25/Web2_2020_2/issues"
+  },
+  "homepage": "https://github.com/ricks25/Web2_2020_2#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "hbs": "^4.1.2",
+    "mongodb": "^3.6.6",
+    "nodemon": "^2.0.7"
+  }
+}
