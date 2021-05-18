@@ -3,7 +3,8 @@ let http = require('http'),
     express = require('express'),
     cookieParser = require('cookie-parser'),
     app = express(),
-    Musicas = require('./model/Musicas');
+    Musicas = require('./model/Musicas'),
+    User = require('./model/Users');
 
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'view'));
@@ -41,11 +42,12 @@ app.post('/cadastro', async (req, res) => {
     res.end();
 })
 
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
     let username = req.body.username,
-        senha = req.body.senha;
-    if(username === 'teste' && senha === 'teste123') {
-        res.cookie('login', 'teste');
+        senha = req.body.senha,
+        login = await User.login(username, senha);
+    if(login > 0) {
+        res.cookie('login', username);
         res.redirect('/');
         return ;
     }else{
@@ -53,6 +55,15 @@ app.post('/login', (req, res) => {
         res.write('<h1>Não foi possivel entrar!</h1>');
         res.end();
     }
+})
+
+app.get('/cadastroUser', (req, res) => {
+    res.render('cadastroUsuario');
+})
+
+app.post('/cadastroUser', async (req, res) => {
+    await User.cadastro(req.body.username, req.body.senha);
+    res.redirect('/login');
 })
 
 app.listen(3000);
