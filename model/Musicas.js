@@ -5,7 +5,7 @@ module.exports = class Musicas {
         let resultado;
         const conn  = await MongoClient.connect('mongodb://localhost:27017/web2');
         const db = conn.db();
-        reultado = await db.collection('musicas').find({ title: new RegExp('^' + nomeMusica) }).toArray();
+        resultado = await db.collection('musicas').find({ title: new RegExp('^' + nomeMusica) }).toArray();
         conn.close();
         return resultado;
     }

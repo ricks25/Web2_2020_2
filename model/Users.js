@@ -18,6 +18,15 @@ module.exports = class Users {
             db.collection('users').insertOne({username: username, senha: senha});   
         }
         conn.close();
-        return res.length;
+    }
+
+    static async isAdm(username, senha){
+        const conn  = await MongoClient.connect('mongodb://localhost:27017/web2');
+        const db = conn.db();
+        let res = await db.collection('users').find({username: username, senha: senha, admin : 1}).toArray();
+        if(res.length > 0){
+            return true;
+        }
+        return false;
     }
 }

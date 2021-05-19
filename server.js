@@ -2,6 +2,7 @@ let http = require('http'),
     path = require('path'),
     express = require('express'),
     cookieParser = require('cookie-parser'),
+    session = require('express-session'),
     app = express(),
     Musicas = require('./model/Musicas'),
     User = require('./model/Users');
@@ -11,13 +12,20 @@ app.set('views', path.join(__dirname, 'view'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
+app.use(session({
+    secret: 'R2I5C0A5R1D9O99',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {secure: false}
+}));
 
-app.get('/', function (req, res, next) {
-    if(req.cookies && req.cookies.login) {
+app.get('/', function (req, res) {
+    if(req.cookies && req.cookies.login && req.session && req.session.login && req.session.adm) {
         res.render('cadastroMusica');
         return ;
+    }else{
+        res.redirect('login');
     }
-    res.redirect('login');
 })
 
 app.get('/login', (req, res) => {
@@ -25,21 +33,23 @@ app.get('/login', (req, res) => {
 })
 
 app.get('/busca', async (req, res) => {
-    const musicas = await Musicas.find(req.query.busca);
-    res.render('paginaDeBusca', { musicas: musicas})
-})
-
-app.get('/cadastro', (req, res) => {
-    res.render('cadastroMusica');
+    if(req.cookies && req.cookies.login && req.session && req.session.login){
+        const musicas = await Musicas.find(req.query.busca);
+        res.render('paginaDeBusca', { musicas: musicas});
+    }else{
+        res.redirect('login');
+    }
 })
 
 app.post('/cadastro', async (req, res) => {
-    const musica = {
-        title: req.body.title,
-        band: req.body.band
+    if(req.cookies && req.cookies.login && req.session && req.session.login){
+        const musica = {
+            title: req.body.title,
+            band: req.body.band
+        }
+        Musicas.insert(musica);
+        res.render('cadastroMusica');
     }
-    Musicas.insert(musica);
-    res.end();
 })
 
 app.post('/login', async (req, res) => {
@@ -48,8 +58,13 @@ app.post('/login', async (req, res) => {
         login = await User.login(username, senha);
     if(login > 0) {
         res.cookie('login', username);
-        res.redirect('/');
-        return ;
+        req.session.login = username;
+        if(await User.isAdm(username, senha)){
+            req.session.adm = true;
+            res.render('cadastroMusica');
+        }else{
+            res.redirect('/busca');
+        }
     }else{
         res.status(403);
         res.write('<h1>Não foi possivel entrar!</h1>');
