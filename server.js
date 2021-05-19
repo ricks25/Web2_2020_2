@@ -5,7 +5,8 @@ let http = require('http'),
     session = require('express-session'),
     app = express(),
     Musicas = require('./model/Musicas'),
-    User = require('./model/Users');
+    User = require('./model/Users'),
+    port = process.env.PORT || 3000;
 
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'view'));
@@ -81,4 +82,4 @@ app.post('/cadastroUser', async (req, res) => {
     res.redirect('/login');
 })
 
-app.listen(3000);
+app.listen(port);
