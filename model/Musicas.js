@@ -14,7 +14,7 @@ module.exports = class Musicas {
     static async insert(musica){
         const conn  = await MongoClient.connect(mongoUrl);
         const db = conn.db();
-        db.collection('musicas').insertOne({title: musica.title, band: musica.band});
+        db.collection('musicas').insertOne({title: musica.title, band: musica.band, url: musica.url});
         conn.close();
     }
 }

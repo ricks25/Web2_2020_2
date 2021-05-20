@@ -47,7 +47,8 @@ app.post('/cadastro', async (req, res) => {
     if(req.cookies && req.cookies.login && req.session && req.session.login && req.session.adm){
         const musica = {
             title: req.body.title,
-            band: req.body.band
+            band: req.body.band,
+            url: req.body.url
         }
         Musicas.insert(musica);
         res.render('cadastroMusica');
