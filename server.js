@@ -44,7 +44,7 @@ app.get('/busca', async (req, res) => {
 })
 
 app.post('/cadastro', async (req, res) => {
-    if(req.cookies && req.cookies.login && req.session && req.session.login){
+    if(req.cookies && req.cookies.login && req.session && req.session.login && req.session.adm){
         const musica = {
             title: req.body.title,
             band: req.body.band
