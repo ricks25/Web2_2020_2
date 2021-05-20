@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta http-equiv="contet-type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="style.css" type="text/css" charset="utf-8" />
         <title>Pagina de Busca</title>
     </head>
     <body>
@@ -12,10 +13,17 @@
             <input type="submit" name="buscar" value="Buscar" />
         </form>
 
-        <ul>
+        <table>
+            <tr>
+                <th>Nome da banda/artista</th>
+                <th>Nome da musica</th>
+            </tr>
             {{#musicas}}
-                <li>{{title}}</li>
+                <tr>
+                    <td>{{band}}</td>
+                    <td>{{title}}</td>
+                </tr>
             {{/musicas}}
-        </ul>
+        </table>
     </body>
 </html>

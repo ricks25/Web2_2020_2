@@ -11,12 +11,20 @@ module.exports = class Users {
         return resultado.length;
     }
 
-    static async cadastro(username, senha){
+    static async cadastro(username, senha, email){
         const conn  = await MongoClient.connect(mongoUrl);
         const db = conn.db();
-        let res = await db.collection('users').find({username: username}).toArray();
-        if(res.length === 0){
-            db.collection('users').insertOne({username: username, senha: senha});   
+        let Bemail = await db.collection('users').find({email: email}).toArray();
+        let Busername = await db.collection('users').find({username: username}).toArray();
+        if(Bemail.length > 0){
+            return 1;
+        }
+        if(Busername.length > 0){
+            return 2;
+        }
+        let res = Bemail.length + Busername.length;
+        if(res === 0){
+            db.collection('users').insertOne({username: username, senha: senha, email: email});   
         }
         conn.close();
     }

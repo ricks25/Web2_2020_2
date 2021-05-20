@@ -79,8 +79,12 @@ app.get('/cadastroUser', (req, res) => {
 })
 
 app.post('/cadastroUser', async (req, res) => {
-    await User.cadastro(req.body.username, req.body.senha);
-    res.redirect('/login');
+    let cadastro = await User.cadastro(req.body.username, req.body.senha, req.body.email);
+    if(cadastro > 0){
+        res.render('cadastroUsuario', {cadastro: cadastro});
+    }else{
+        res.redirect('/login');
+    }  
 })
 
 app.listen(process.env.PORT || 3000);
