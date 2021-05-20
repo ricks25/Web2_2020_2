@@ -1,5 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
-const mongoUrl = 'mongodb+srv://admin:<admin123>@projectweb.blqth.mongodb.net/web2?retryWrites=true&w=majority' ||'mongodb://localhost:27017/web2';
+const mongoUrl = 'mongodb+srv://admin:admin123@projectweb.blqth.mongodb.net/web2?retryWrites=true&w=majority' ||'mongodb://localhost:27017/web2';
 
 module.exports = class Users {
     static async login(username, senha) {
