@@ -6,8 +6,9 @@ let http = require('http'),
     app = express(),
     Musicas = require('./model/Musicas'),
     User = require('./model/Users'),
-    port = process.env.PORT || 3000;
+    cors = require('cors');
 
+app.use(cors());
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'view'));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -82,4 +83,4 @@ app.post('/cadastroUser', async (req, res) => {
     res.redirect('/login');
 })
 
-app.listen(port);
+app.listen(process.env.PORT || 3000);
