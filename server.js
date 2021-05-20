@@ -31,6 +31,7 @@ app.get('/', function (req, res) {
 })
 
 app.get('/login', (req, res) => {
+    alert(await Users.login('admin','admin123'));
     res.render('login');
 })
 
