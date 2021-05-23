@@ -22,7 +22,7 @@ app.use(session({
 }));
 
 app.get('/', function (req, res) {
-    if(req.cookies && req.cookies.login && req.session && req.session.login && req.session.adm) {
+    if(req.session && req.session.login && req.session.adm) {
         res.render('cadastroMusica');
         return ;
     }else{
@@ -34,8 +34,8 @@ app.get('/login', (req, res) => {
     res.render('login');
 })
 
-app.get('/busca', async (req, res) => {
-    if(req.cookies && req.cookies.login && req.session && req.session.login){
+app.get('/musica', async (req, res) => {
+    if(req.session && req.session.login){
         const musicas = await Musicas.find(req.query.busca);
         res.render('paginaDeBusca', { musicas: musicas});
     }else{
@@ -43,8 +43,8 @@ app.get('/busca', async (req, res) => {
     }
 })
 
-app.post('/cadastro', async (req, res) => {
-    if(req.cookies && req.cookies.login && req.session && req.session.login && req.session.adm){
+app.post('/signupMusic', async (req, res) => {
+    if(req.session && req.session.login && req.session.adm){
         const musica = {
             title: req.body.title,
             band: req.body.band,
@@ -66,7 +66,7 @@ app.post('/login', async (req, res) => {
             req.session.adm = true;
             res.render('cadastroMusica');
         }else{
-            res.redirect('/busca');
+            res.redirect('/musica');
         }
     }else{
         res.status(403);
@@ -75,11 +75,11 @@ app.post('/login', async (req, res) => {
     }
 })
 
-app.get('/cadastroUser', (req, res) => {
+app.get('/signupUser', (req, res) => {
     res.render('cadastroUsuario');
 })
 
-app.post('/cadastroUser', async (req, res) => {
+app.post('/signupUser', async (req, res) => {
     let cadastro = await User.cadastro(req.body.username, req.body.senha, req.body.email);
     if(cadastro > 0){
         res.render('cadastroUsuario', {cadastro: cadastro});
